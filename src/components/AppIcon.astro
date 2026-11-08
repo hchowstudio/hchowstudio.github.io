@@ -1,14 +1,15 @@
 ---
 // App icon, or an accent-colored tile with initials when the icon isn't ready yet (drafts).
 import type { App } from '../lib/apps';
-import { initials } from '../lib/apps';
+import { initials, displayIcon } from '../lib/apps';
 interface Props { app: App; size?: number; class?: string; eager?: boolean }
 const { app, size = 56, class: cls = '', eager = false } = Astro.props;
 const d = app.data;
 const radius = Math.round(size * 0.23);
+const src = displayIcon(d.icon);
 ---
-{d.icon ? (
-  <img class={`app-icon ${cls}`} src={d.icon} alt="" width={size} height={size} loading={eager ? 'eager' : 'lazy'} style={`width:${size}px;height:${size}px;border-radius:${radius}px`} />
+{src ? (
+  <img class={`app-icon ${cls}`} src={src} alt="" width={size} height={size} loading={eager ? 'eager' : 'lazy'} style={`width:${size}px;height:${size}px;border-radius:${radius}px`} />
 ) : (
   <span class={`app-icon tile ${cls}`} aria-hidden="true" style={`width:${size}px;height:${size}px;border-radius:${radius}px;background:${d.accent};font-size:${Math.round(size * 0.36)}px`}>{initials(d.shortName)}</span>
 )}

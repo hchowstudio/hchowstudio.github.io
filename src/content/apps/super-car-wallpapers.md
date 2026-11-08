@@ -6,16 +6,16 @@ tagline: "Racing, Sport Cars Lock-screen"
 summary: "Transform your device with Super Car Wallpapers Live, the ultimate app for car enthusiasts!"
 appStoreId: "6749441486"
 bundleId: "com.hchowstudio.wallpapers.car"
-category: "Utilities"
+category: "Wallpapers"
 storeGenre: "Graphics & Design"
 accent: "#111113"
 icon: /images/apps/super-car-wallpapers/icon.png
 screenshots:
-  - /images/apps/super-car-wallpapers/shot-1.jpg
-  - /images/apps/super-car-wallpapers/shot-2.jpg
-  - /images/apps/super-car-wallpapers/shot-3.jpg
-  - /images/apps/super-car-wallpapers/shot-4.jpg
-  - /images/apps/super-car-wallpapers/shot-5.jpg
+  - /images/apps/super-car-wallpapers/shot-1.webp
+  - /images/apps/super-car-wallpapers/shot-2.webp
+  - /images/apps/super-car-wallpapers/shot-3.webp
+  - /images/apps/super-car-wallpapers/shot-4.webp
+  - /images/apps/super-car-wallpapers/shot-5.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "9+"

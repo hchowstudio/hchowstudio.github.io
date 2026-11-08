@@ -11,12 +11,12 @@ storeGenre: "Business"
 accent: "#2F54EB"
 icon: /images/apps/scandoc/icon.png
 screenshots:
-  - /images/apps/scandoc/shot-1.jpg
-  - /images/apps/scandoc/shot-2.jpg
-  - /images/apps/scandoc/shot-3.jpg
-  - /images/apps/scandoc/shot-4.jpg
-  - /images/apps/scandoc/shot-5.jpg
-  - /images/apps/scandoc/shot-6.jpg
+  - /images/apps/scandoc/shot-1.webp
+  - /images/apps/scandoc/shot-2.webp
+  - /images/apps/scandoc/shot-3.webp
+  - /images/apps/scandoc/shot-4.webp
+  - /images/apps/scandoc/shot-5.webp
+  - /images/apps/scandoc/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "4+"

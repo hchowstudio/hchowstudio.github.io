@@ -3,11 +3,12 @@
 //   npm run new-app -- <slug> [--name "App Name"] [--id 1234567890] [--category Coloring]
 // Creates src/content/apps/<slug>.md (status: draft) and public/images/apps/<slug>/,
 // then prints the URLs to paste into App Store Connect.
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { APPS_DIR, IMAGES_DIR, appPath, isSlug, printUrls, q, getField, readApp } from './lib.mjs';
+import { ROOT, APPS_DIR, IMAGES_DIR, appPath, isSlug, printUrls, q, getField, readApp } from './lib.mjs';
 
-const CATEGORIES = ['Coloring', 'Puzzles', 'Creativity', 'Utilities', 'Apple Watch'];
+// Categories come from src/config.ts so there's one list to edit.
+const CATEGORIES = [...readFileSync(join(ROOT, 'src/config.ts'), 'utf8').match(/CATEGORIES = \[([^\]]+)\]/)[1].matchAll(/'([^']+)'/g)].map((m) => m[1]);
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -62,7 +63,7 @@ order: ${nextOrder}
 featured: false
 
 # Privacy — keys from src/lib/privacy.ts. Check these match what the app ships!
-sdks: [admob]            # admob | meta-audience | firebase | revenuecat — [] for none
+sdks: [admob]            # admob | meta-audience | firebase | supabase | revenuecat — [] for none
 permissions: []          # camera | photos | photos-add | health | notifications
 kids: false              # true adds child-directed (COPPA) wording
 # privacyNotes: "Anything specific about this app's data."

@@ -11,17 +11,17 @@ storeGenre: "Health & Fitness"
 accent: "#C2410C"
 icon: /images/apps/roundly/icon.png
 screenshots:
-  - /images/apps/roundly/shot-1.jpg
-  - /images/apps/roundly/shot-2.jpg
-  - /images/apps/roundly/shot-3.jpg
-  - /images/apps/roundly/shot-4.jpg
-  - /images/apps/roundly/shot-5.jpg
-  - /images/apps/roundly/shot-6.jpg
-platforms: [iPhone, Apple Watch]
+  - /images/apps/roundly/shot-1.webp
+  - /images/apps/roundly/shot-2.webp
+  - /images/apps/roundly/shot-3.webp
+  - /images/apps/roundly/shot-4.webp
+  - /images/apps/roundly/shot-5.webp
+  - /images/apps/roundly/shot-6.webp
+platforms: [iPhone, iPad, Apple Watch]
 price: "Free"
 ageRating: "4+"
 releaseDate: 2025-01-09
-order: 12
+order: 14
 featured: false
 sdks: []
 permissions: [health]

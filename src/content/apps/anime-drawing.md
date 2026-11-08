@@ -11,12 +11,12 @@ storeGenre: "Graphics & Design"
 accent: "#C2185B"
 icon: /images/apps/anime-drawing/icon.png
 screenshots:
-  - /images/apps/anime-drawing/shot-1.jpg
-  - /images/apps/anime-drawing/shot-2.jpg
-  - /images/apps/anime-drawing/shot-3.jpg
-  - /images/apps/anime-drawing/shot-4.jpg
-  - /images/apps/anime-drawing/shot-5.jpg
-  - /images/apps/anime-drawing/shot-6.jpg
+  - /images/apps/anime-drawing/shot-1.webp
+  - /images/apps/anime-drawing/shot-2.webp
+  - /images/apps/anime-drawing/shot-3.webp
+  - /images/apps/anime-drawing/shot-4.webp
+  - /images/apps/anime-drawing/shot-5.webp
+  - /images/apps/anime-drawing/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "4+"

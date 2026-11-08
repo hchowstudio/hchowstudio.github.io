@@ -11,12 +11,12 @@ storeGenre: "Education"
 accent: "#92400E"
 icon: /images/apps/capybara-coloring/icon.png
 screenshots:
-  - /images/apps/capybara-coloring/shot-1.jpg
-  - /images/apps/capybara-coloring/shot-2.jpg
-  - /images/apps/capybara-coloring/shot-3.jpg
-  - /images/apps/capybara-coloring/shot-4.jpg
-  - /images/apps/capybara-coloring/shot-5.jpg
-  - /images/apps/capybara-coloring/shot-6.jpg
+  - /images/apps/capybara-coloring/shot-1.webp
+  - /images/apps/capybara-coloring/shot-2.webp
+  - /images/apps/capybara-coloring/shot-3.webp
+  - /images/apps/capybara-coloring/shot-4.webp
+  - /images/apps/capybara-coloring/shot-5.webp
+  - /images/apps/capybara-coloring/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "4+"

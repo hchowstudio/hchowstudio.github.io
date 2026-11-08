@@ -11,12 +11,12 @@ storeGenre: "Games"
 accent: "#BE123C"
 icon: /images/apps/kawaii-flip-match/icon.png
 screenshots:
-  - /images/apps/kawaii-flip-match/shot-1.jpg
-  - /images/apps/kawaii-flip-match/shot-2.jpg
-  - /images/apps/kawaii-flip-match/shot-3.jpg
-  - /images/apps/kawaii-flip-match/shot-4.jpg
-  - /images/apps/kawaii-flip-match/shot-5.jpg
-  - /images/apps/kawaii-flip-match/shot-6.jpg
+  - /images/apps/kawaii-flip-match/shot-1.webp
+  - /images/apps/kawaii-flip-match/shot-2.webp
+  - /images/apps/kawaii-flip-match/shot-3.webp
+  - /images/apps/kawaii-flip-match/shot-4.webp
+  - /images/apps/kawaii-flip-match/shot-5.webp
+  - /images/apps/kawaii-flip-match/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "9+"

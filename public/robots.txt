@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hchowstudio.github.io/sitemap-index.xml

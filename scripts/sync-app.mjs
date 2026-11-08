@@ -50,18 +50,20 @@ for (const app of withId) {
   const dir = join(IMAGES_DIR, app.slug);
   mkdirSync(dir, { recursive: true });
 
-  // Icon + screenshots (iPhone first, iPad if the app has no iPhone screenshots).
+  // Icon: 512px PNG for share cards / structured data, 256px WebP for display.
   await download(resized(r.artworkUrl512, '512x512bb.png'), join(dir, 'icon.png'));
+  await download(resized(r.artworkUrl512, '256x256bb.webp'), join(dir, 'icon-256.webp'));
+  // Screenshots as WebP (iPhone first, iPad if the app has no iPhone screenshots).
   const shotUrls = (r.screenshotUrls?.length ? r.screenshotUrls : r.ipadScreenshotUrls ?? []).slice(0, 6);
   const shots = [];
   for (const [i, u] of shotUrls.entries()) {
-    const name = `shot-${i + 1}.jpg`;
-    await download(resized(u, '600x0w.jpg'), join(dir, name));
+    const name = `shot-${i + 1}.webp`;
+    await download(resized(u, '600x0w.webp'), join(dir, name));
     shots.push(`/images/apps/${app.slug}/${name}`);
   }
   for (const f of readdirSync(dir)) {
-    const n = Number(f.match(/^shot-(\d+)\.jpg$/)?.[1]);
-    if (n > shots.length) rmSync(join(dir, f));
+    const m = f.match(/^shot-(\d+)\.(jpg|webp)$/);
+    if (m && (m[2] === 'jpg' || Number(m[1]) > shots.length)) rmSync(join(dir, f));
   }
   if (existsSync(join(dir, '.gitkeep'))) rmSync(join(dir, '.gitkeep'));
 

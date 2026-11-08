@@ -11,12 +11,12 @@ storeGenre: "Games"
 accent: "#4D7C0F"
 icon: /images/apps/dino-coloring/icon.png
 screenshots:
-  - /images/apps/dino-coloring/shot-1.jpg
-  - /images/apps/dino-coloring/shot-2.jpg
-  - /images/apps/dino-coloring/shot-3.jpg
-  - /images/apps/dino-coloring/shot-4.jpg
-  - /images/apps/dino-coloring/shot-5.jpg
-  - /images/apps/dino-coloring/shot-6.jpg
+  - /images/apps/dino-coloring/shot-1.webp
+  - /images/apps/dino-coloring/shot-2.webp
+  - /images/apps/dino-coloring/shot-3.webp
+  - /images/apps/dino-coloring/shot-4.webp
+  - /images/apps/dino-coloring/shot-5.webp
+  - /images/apps/dino-coloring/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "9+"

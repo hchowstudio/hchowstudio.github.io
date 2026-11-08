@@ -11,12 +11,12 @@ storeGenre: "Games"
 accent: "#6D28D9"
 icon: /images/apps/magic-jigsaw/icon.png
 screenshots:
-  - /images/apps/magic-jigsaw/shot-1.jpg
-  - /images/apps/magic-jigsaw/shot-2.jpg
-  - /images/apps/magic-jigsaw/shot-3.jpg
-  - /images/apps/magic-jigsaw/shot-4.jpg
-  - /images/apps/magic-jigsaw/shot-5.jpg
-  - /images/apps/magic-jigsaw/shot-6.jpg
+  - /images/apps/magic-jigsaw/shot-1.webp
+  - /images/apps/magic-jigsaw/shot-2.webp
+  - /images/apps/magic-jigsaw/shot-3.webp
+  - /images/apps/magic-jigsaw/shot-4.webp
+  - /images/apps/magic-jigsaw/shot-5.webp
+  - /images/apps/magic-jigsaw/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "4+"

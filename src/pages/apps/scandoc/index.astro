@@ -7,6 +7,7 @@ import Base from '../../../layouts/Base.astro';
 import Phone from '../../../components/Phone.astro';
 import AppStoreButton from '../../../components/AppStoreButton.astro';
 import AppSections from '../../../components/AppSections.astro';
+import { displayIcon } from '../../../lib/apps';
 
 const app = (await getEntry('apps', 'scandoc'))!;
 const d = app.data;
@@ -22,7 +23,7 @@ const features = [
 <Base title={d.name} description={d.summary} image={d.icon} appStoreId={d.appStoreId}>
   <section class="container hero">
     <div class="copy">
-      <img class="icon reveal" src={d.icon} alt="" width="96" height="96" />
+      <img class="icon reveal" src={displayIcon(d.icon)} alt="" width="96" height="96" />
       <h1 class="display reveal" style="--d:.08s">Every paper,<br />a perfect PDF.</h1>
       <p class="lead reveal" style="--d:.16s">{d.summary}</p>
       <div class="buy reveal" style="--d:.24s">

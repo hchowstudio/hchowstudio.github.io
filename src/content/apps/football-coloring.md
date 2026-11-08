@@ -11,12 +11,12 @@ storeGenre: "Games"
 accent: "#15803D"
 icon: /images/apps/football-coloring/icon.png
 screenshots:
-  - /images/apps/football-coloring/shot-1.jpg
-  - /images/apps/football-coloring/shot-2.jpg
-  - /images/apps/football-coloring/shot-3.jpg
-  - /images/apps/football-coloring/shot-4.jpg
-  - /images/apps/football-coloring/shot-5.jpg
-  - /images/apps/football-coloring/shot-6.jpg
+  - /images/apps/football-coloring/shot-1.webp
+  - /images/apps/football-coloring/shot-2.webp
+  - /images/apps/football-coloring/shot-3.webp
+  - /images/apps/football-coloring/shot-4.webp
+  - /images/apps/football-coloring/shot-5.webp
+  - /images/apps/football-coloring/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "9+"

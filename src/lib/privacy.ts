@@ -21,6 +21,11 @@ export const SDKS: Record<string, Sdk> = {
     use: 'Collects anonymous usage statistics and crash reports so we can fix bugs.',
     href: 'https://firebase.google.com/support/privacy',
   },
+  supabase: {
+    name: 'Supabase',
+    use: 'Runs online private rooms. The room code, the nickname you choose and your game moves are sent to the game server only to sync the match with the other players.',
+    href: 'https://supabase.com/privacy',
+  },
   revenuecat: {
     name: 'RevenueCat',
     use: 'Processes in-app purchase and subscription status. Payments themselves are handled by Apple.',
@@ -33,6 +38,8 @@ export const PERMISSIONS: Record<string, { name: string; use: string }> = {
   photos: { name: 'Photo library', use: 'Used to import images you choose. The app cannot see photos you do not pick.' },
   'photos-add': { name: 'Save to Photos', use: 'Add-only access, used when you save your artwork or wallpaper. The app cannot read your library.' },
   health: { name: 'Apple Health', use: 'With your permission, completed workouts are written to Apple Health. Health data is never used for ads or shared with third parties.' },
+  microphone: { name: 'Microphone', use: 'Used only while you record your voice to practice. Recordings stay on your device.' },
+  speech: { name: 'Speech recognition', use: 'Turns your recorded voice into text so the app can compare it with the target phrase. Processed by Apple’s speech recognition service.' },
   notifications: { name: 'Notifications', use: 'Optional reminders. You can turn them off in Settings.' },
 };
 
