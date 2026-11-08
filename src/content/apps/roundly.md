@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Roundly: Tabata & HIIT Timer"
 shortName: "Roundly"
 tagline: "Interval Workouts & Streaks"

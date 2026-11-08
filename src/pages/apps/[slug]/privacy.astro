@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { isHidden } from '../../../lib/apps';
 import Base from '../../../layouts/Base.astro';
 import PrivacyPolicy from '../../../components/PrivacyPolicy.astro';
 
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
 const { app } = Astro.props as { app: CollectionEntry<'apps'> };
 const d = app.data;
 ---
-<Base title={`${d.shortName} Privacy Policy`} description={`How ${d.name} handles your data.`} active="privacy" appStoreId={d.appStoreId}>
+<Base title={`${d.shortName} Privacy Policy`} description={`How ${d.name} handles your data.`} active="privacy" appStoreId={d.status === 'live' ? d.appStoreId : undefined} noindex={isHidden(app)}>
   <PrivacyPolicy
     heading={`${d.shortName} Privacy Policy`}
     appliesTo={d.name}

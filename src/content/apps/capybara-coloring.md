@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Capybara Coloring & Drawing"
 shortName: "Capybara Coloring"
 tagline: "Cute Superhero Coloring Book"

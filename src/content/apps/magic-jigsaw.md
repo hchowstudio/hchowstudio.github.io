@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Magic Jigsaw Art Puzzles"
 shortName: "Magic Jigsaw"
 tagline: "Landscape, Art Puzzle Game"

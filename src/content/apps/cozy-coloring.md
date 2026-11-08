@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Cozy Coloring Book for Adults"
 shortName: "Cozy Coloring"
 tagline: "Bold, Easy & Comfy Coloring"

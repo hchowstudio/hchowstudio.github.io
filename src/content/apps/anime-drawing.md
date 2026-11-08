@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Anime Drawing: AR Tracing"
 shortName: "Anime Drawing"
 tagline: "Sketch manga, draw on paper"

@@ -1,11 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
+import { liveApps, upcomingApps } from '../lib/apps';
+import AppIcon from '../components/AppIcon.astro';
 import Base from '../layouts/Base.astro';
 import AppCard from '../components/AppCard.astro';
 import Phone from '../components/Phone.astro';
 import { CATEGORIES } from '../config';
 
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const apps = await liveApps();
+const upcoming = await upcomingApps();
 const featured = apps.find((a) => a.data.featured) ?? apps[0];
 const cats = CATEGORIES.filter((c) => apps.some((a) => a.data.category === c));
 const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
@@ -26,7 +28,7 @@ const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
       <div class="f-copy">
         <span class="badge">Latest release</span>
         <div class="f-title">
-          <img src={featured.data.icon} alt="" width="72" height="72" />
+          <AppIcon app={featured} size={72} eager />
           <div>
             <h2>{featured.data.shortName}</h2>
             <p class="muted">{featured.data.tagline}</p>
@@ -57,6 +59,20 @@ const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
       {apps.map((app) => <AppCard app={app} />)}
     </div>
   </section>
+
+  {upcoming.length > 0 && (
+    <section class="container soon">
+      <h2 class="h2">Coming soon</h2>
+      <div class="soon-list">
+        {upcoming.map((a) => (
+          <a href={`/apps/${a.id}/`} class="soon-item card">
+            <AppIcon app={a} size={48} />
+            <span><strong>{a.data.shortName}</strong><span class="muted">{a.data.tagline}</span></span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="surface">
     <div class="container values">
@@ -103,7 +119,6 @@ const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
   .f-copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
   .badge { align-self: flex-start; padding: 6px 12px; border-radius: 999px; background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--accent); }
   .f-title { display: flex; align-items: center; gap: 16px; }
-  .f-title img { width: 72px; height: 72px; border-radius: 17px; }
   .f-title h2 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: -0.03em; }
   .f-title p { margin: 4px 0 0; }
   .f-sum { margin: 0; font-size: 19px; line-height: 1.55; color: var(--body); max-width: 480px; }
@@ -118,6 +133,12 @@ const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
   .filters { display: flex; flex-wrap: wrap; gap: 8px; }
   .filters button { font: inherit; font-size: 14px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); transition: background 0.2s, color 0.2s; }
   .filters button[aria-pressed='true'] { background: var(--invert); color: var(--on-invert); border-color: var(--invert); }
+  .soon { padding-bottom: 112px; display: flex; flex-direction: column; gap: 24px; }
+  .soon-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 16px; }
+  .soon-item { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 20px; border: 1px dashed var(--line-strong); color: var(--text); }
+  .soon-item:hover { color: var(--text); }
+  .soon-item > span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .soon-item .muted { font-size: 14px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 
   .values { padding-top: 96px; padding-bottom: 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; }

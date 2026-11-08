@@ -3,19 +3,23 @@
 // Shared by the Markdown template and hand-made landing pages.
 import { render, type CollectionEntry } from 'astro:content';
 import Phone from './Phone.astro';
-import AppStoreButton from './AppStoreButton.astro';
+import ReleaseCta from './ReleaseCta.astro';
+import AppIcon from './AppIcon.astro';
 
 interface Props { app: CollectionEntry<'apps'>; showDescription?: boolean }
 const { app, showDescription = true } = Astro.props;
 const d = app.data;
 const { Content } = await render(app);
+const hasBody = Boolean(app.body?.trim());
+const live = d.status === 'live';
 const faq = [
   ...d.faq,
+  ...(live ? [] : [{ q: `When will ${d.shortName} be available?`, a: 'Soon! It will appear on the App Store as soon as it passes review.' }]),
   { q: 'How do I restore a purchase?', a: 'Open the app’s settings and tap Restore Purchases while signed in with the same Apple ID you used to buy.' },
   { q: 'Where can I get help?', a: 'Use the Support link below — your email opens with the app name already filled in.' },
 ];
 ---
-{showDescription && (
+{showDescription && hasBody && (
   <section class="section surface">
     <div class="container about">
       <div class="about-head reveal">
@@ -55,10 +59,10 @@ const faq = [
 
 <section class="section">
   <div class="container end reveal">
-    <img src={d.icon} alt="" width="88" height="88" />
-    <h2 class="display end-title">Get {d.shortName}.</h2>
-    <p class="muted">{d.price} · {d.platforms.join(' & ')}{d.ageRating ? ` · Ages ${d.ageRating}` : ''}</p>
-    <AppStoreButton id={d.appStoreId} />
+    <AppIcon app={app} size={88} />
+    <h2 class="display end-title">{live ? `Get ${d.shortName}.` : `${d.shortName} is coming.`}</h2>
+    {live && <p class="muted">{d.price} · {d.platforms.join(' & ')}{d.ageRating ? ` · Ages ${d.ageRating}` : ''}</p>}
+    <ReleaseCta app={app} />
     <nav class="app-links" aria-label={`${d.shortName} links`}>
       <a href={`/apps/${app.id}/privacy/`}>Privacy Policy</a>
       <a href={`/contact/?app=${app.id}`}>Support</a>
@@ -80,7 +84,6 @@ const faq = [
   .faq-wrap { max-width: 820px; display: flex; flex-direction: column; gap: 32px; }
   .faqs { display: flex; flex-direction: column; gap: 12px; }
   .end { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
-  .end img { width: 88px; height: 88px; border-radius: 20px; }
   .end-title { font-size: clamp(36px, 5vw, 56px); }
   .end p { margin: 0; }
   .app-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-top: 12px; font-size: 15px; font-weight: 500; }

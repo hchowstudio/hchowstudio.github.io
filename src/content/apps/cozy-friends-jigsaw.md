@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Cozy Friends Jigsaw Puzzles"
 shortName: "Cozy Friends Jigsaw"
 tagline: "Animal jigsaw, Capybara puzzle"

@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Brainrot Coloring Meme Art"
 shortName: "Brainrot Coloring"
 tagline: "Color game, drawing viral meme"

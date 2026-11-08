@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Football Coloring, Draw Soccer"
 shortName: "Football Coloring"
 tagline: "Color Football Superstar"

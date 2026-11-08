@@ -1,9 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
+import { allApps } from '../lib/apps';
 import Base from '../layouts/Base.astro';
 import { SITE } from '../config';
 
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+// Drafts are hidden from the menu but still selectable via ?app=<slug> (the Support URL for App Review).
+const apps = await allApps();
 const topics = ['Bug report', 'Purchase or subscription', 'Feature request', 'Privacy question', 'Other'];
 const faq = [
   { q: 'How do I restore my purchase?', a: 'Open the app’s settings and tap Restore Purchases, signed in with the same Apple ID you bought with.' },
@@ -25,7 +26,7 @@ const faq = [
       <div class="field">
         <label for="app">App</label>
         <select id="app" name="app">
-          {apps.map((a) => <option value={a.id} data-name={a.data.shortName}>{a.data.shortName}</option>)}
+          {apps.map((a) => <option value={a.id} data-name={a.data.shortName} hidden={a.data.status === 'draft'}>{a.data.shortName}</option>)}
           <option value="general" data-name="General">Something else</option>
         </select>
       </div>

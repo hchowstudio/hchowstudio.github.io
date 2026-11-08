@@ -1,12 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import AppIcon from './AppIcon.astro';
 interface Props { app: CollectionEntry<'apps'> }
 const { app } = Astro.props;
 const d = app.data;
 ---
 <a href={`/apps/${app.id}/`} class="app-card card" data-category={d.category}>
   <div class="top">
-    <img class="icon" src={d.icon} alt="" width="56" height="56" loading="lazy" />
+    <AppIcon app={app} size={56} />
     <span class="pill">{d.category}</span>
   </div>
   <div>

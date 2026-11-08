@@ -1,36 +1,41 @@
 ---
 // Templated landing page for every app in src/content/apps/*.md
 // (apps with `customLanding: true` have their own page in src/pages/apps/<slug>/).
-import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Phone from '../../../components/Phone.astro';
-import AppStoreButton from '../../../components/AppStoreButton.astro';
+import AppIcon from '../../../components/AppIcon.astro';
+import ReleaseCta from '../../../components/ReleaseCta.astro';
 import AppSections from '../../../components/AppSections.astro';
+import { allApps, isHidden, type App } from '../../../lib/apps';
 
 export async function getStaticPaths() {
-  const apps = await getCollection('apps', (a) => !a.data.customLanding);
+  const apps = (await allApps()).filter((a) => !a.data.customLanding);
   return apps.map((app) => ({ params: { slug: app.id }, props: { app } }));
 }
-const { app } = Astro.props as { app: CollectionEntry<'apps'> };
+const { app } = Astro.props as { app: App };
 const d = app.data;
+const live = d.status === 'live';
 ---
-<Base title={d.name} description={d.summary} image={d.icon} appStoreId={d.appStoreId}>
+<Base title={d.name} description={d.summary && !d.summary.startsWith('TODO') ? d.summary : d.tagline} image={d.icon} appStoreId={live ? d.appStoreId : undefined} noindex={isHidden(app)}>
   <section class="container hero" style={`--app:${d.accent}`}>
     <div class="copy">
-      <img class="icon reveal" src={d.icon} alt="" width="96" height="96" />
+      <AppIcon app={app} size={96} class="icon reveal" eager />
+      {!live && <span class="badge reveal">Coming soon</span>}
       <h1 class="display reveal" style="--d:.08s">{d.shortName}</h1>
       <p class="tag reveal" style="--d:.12s">{d.tagline}</p>
-      <p class="lead reveal" style="--d:.16s">{d.summary}</p>
+      {d.summary && !d.summary.startsWith('TODO') && <p class="lead reveal" style="--d:.16s">{d.summary}</p>}
       <div class="buy reveal" style="--d:.24s">
-        <AppStoreButton id={d.appStoreId} />
-        <span class="muted meta">{d.price} · {d.platforms.join(' & ')}</span>
+        <ReleaseCta app={app} />
+        {live && <span class="muted meta">{d.price} · {d.platforms.join(' & ')}</span>}
       </div>
     </div>
-    <div class="art" aria-hidden="true">
-      <div class="glow"></div>
-      {d.screenshots[1] && <Phone src={d.screenshots[1]} width={230} class="back float2" eager />}
-      <Phone src={d.screenshots[0]} width={260} class="front float" eager />
-    </div>
+    {d.screenshots.length > 0 && (
+      <div class="art" aria-hidden="true">
+        <div class="glow"></div>
+        {d.screenshots[1] && <Phone src={d.screenshots[1]} width={230} class="back float2" eager />}
+        <Phone src={d.screenshots[0]} width={260} class="front float" eager />
+      </div>
+    )}
   </section>
   <AppSections app={app} />
 </Base>
@@ -38,7 +43,8 @@ const d = app.data;
 <style>
   .hero { padding-top: 88px; padding-bottom: 112px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
   .copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
-  .icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 20px 40px color-mix(in srgb, var(--app) 30%, transparent); }
+  .copy :global(.icon) { box-shadow: 0 20px 40px color-mix(in srgb, var(--app) 30%, transparent); }
+  .badge { align-self: flex-start; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 600; }
   h1 { font-size: clamp(44px, 6vw, 76px); }
   .tag { margin: -8px 0 0; font-size: 22px; font-weight: 600; color: var(--muted); }
   .lead { max-width: 520px; }

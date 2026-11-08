@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Super Car Wallpapers Live"
 shortName: "Super Car Wallpapers"
 tagline: "Racing, Sport Cars Lock-screen"

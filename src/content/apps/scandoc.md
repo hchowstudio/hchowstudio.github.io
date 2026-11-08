@@ -1,4 +1,5 @@
 ---
+status: live
 name: "ScanDoc: PDF Document Scanner"
 shortName: "ScanDoc"
 tagline: "Scan, Sign, OCR & Convert Docs"

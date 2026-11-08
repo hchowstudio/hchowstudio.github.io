@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Kawaii Flip Match Game"
 shortName: "Kawaii Flip Match"
 tagline: "Train brain, classic memo game"

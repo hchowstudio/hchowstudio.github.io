@@ -1,4 +1,5 @@
 ---
+status: live
 name: "Dino Coloring Pages - ColorRex"
 shortName: "ColorRex"
 tagline: "Dinosaur Colouring & Drawing"
