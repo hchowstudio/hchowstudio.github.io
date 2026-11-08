@@ -1,0 +1,10 @@
+---
+import { SITE } from '../config';
+---
+<a href="/" class="logo" aria-label={`${SITE.name} home`}>
+  <span class="mark" aria-hidden="true">H</span>{SITE.name}
+</a>
+<style>
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--invert); color: var(--on-invert); display: grid; place-items: center; font-size: 14px; font-weight: 800; }
+</style>

@@ -1,0 +1,20 @@
+---
+// A screenshot card. App Store screenshots already contain their own device art,
+// so `src` images are shown as rounded cards; pass `frame` to draw a phone bezel
+// around custom slot content instead.
+interface Props { src?: string; alt?: string; width?: number; class?: string; style?: string; eager?: boolean; frame?: boolean }
+const { src, alt = '', width = 240, class: cls = '', style = '', eager = false, frame = false } = Astro.props;
+---
+<div class={`phone ${frame ? 'framed' : ''} ${cls}`} style={`--w:${width}px;${style}`}>
+  <div class="screen">
+    {src && <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" width="600" height="1304" />}
+    <slot />
+  </div>
+</div>
+<style>
+  .phone { width: var(--w); max-width: 100%; aspect-ratio: 600 / 1304; border-radius: calc(var(--w) * 0.11); flex-shrink: 0; box-shadow: 0 30px 60px rgba(17, 17, 19, 0.18), 0 0 0 1px var(--line); overflow: hidden; background: var(--surface); }
+  .screen { width: 100%; height: 100%; position: relative; }
+  .screen img { width: 100%; height: 100%; object-fit: cover; }
+  .framed { background: #111113; padding: calc(var(--w) * 0.04); border-radius: calc(var(--w) * 0.17); }
+  .framed .screen { border-radius: calc(var(--w) * 0.13); overflow: hidden; background: var(--surface); }
+</style>

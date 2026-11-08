@@ -1,0 +1,111 @@
+---
+// Hand-made landing page (custom HTML/CSS + motion).
+// Because scandoc.md has `customLanding: true`, the Markdown template skips this app.
+// Copy this file to src/pages/apps/<slug>/index.astro to make another custom page.
+import { getEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Phone from '../../../components/Phone.astro';
+import AppStoreButton from '../../../components/AppStoreButton.astro';
+import AppSections from '../../../components/AppSections.astro';
+
+const app = (await getEntry('apps', 'scandoc'))!;
+const d = app.data;
+const features = [
+  { t: 'Auto edge detection', b: 'Hold steady and ScanDoc finds the page, flattens it and captures it for you — in batches.', i: 'M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4' },
+  { t: 'Text recognition (OCR)', b: 'Copy and search the words in any scan. Translate whole pages offline, on-device.', i: 'M5 6h14M5 12h10M5 18h7' },
+  { t: 'Sign & fill', b: 'Draw or import your signature, add stamps, fill in forms and tick boxes.', i: 'M3 17c3-4 5-9 8-9s1 7 4 7 3-3 6-3M3 21h18' },
+  { t: 'Convert anything', b: 'Photos, Word, Excel and PowerPoint to PDF — or export to JPG, Word or TXT.', i: 'M7 3h7l5 5v13H7zM14 3v5h5' },
+  { t: 'Ask AI', b: 'Summarize a document, ask questions and pull out key dates and amounts with Apple Intelligence.', i: 'M12 3l1.8 4.7L18.5 9l-4.7 1.8L12 15.5l-1.8-4.7L5.5 9l4.7-1.3zM18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z' },
+  { t: 'Merge, split & share', b: 'Reorder pages, compress large files and send to Mail, Files, Messages or print.', i: 'M12 15V4M8 8l4-4 4 4M5 13v7h14v-7' },
+];
+---
+<Base title={d.name} description={d.summary} image={d.icon} appStoreId={d.appStoreId}>
+  <section class="container hero">
+    <div class="copy">
+      <img class="icon reveal" src={d.icon} alt="" width="96" height="96" />
+      <h1 class="display reveal" style="--d:.08s">Every paper,<br />a perfect PDF.</h1>
+      <p class="lead reveal" style="--d:.16s">{d.summary}</p>
+      <div class="buy reveal" style="--d:.24s">
+        <AppStoreButton id={d.appStoreId} />
+        <span class="muted meta">{d.price} · {d.platforms.join(' & ')}</span>
+      </div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <div class="glow"></div>
+      <Phone src={d.screenshots[1]} width={230} class="back" eager />
+      <Phone width={260} class="front">
+        <img src={d.screenshots[0]} alt="" width="600" height="1300" />
+        <span class="scan"></span>
+      </Phone>
+    </div>
+  </section>
+
+  <section class="section surface" id="features">
+    <div class="container">
+      <div class="f-head reveal">
+        <p class="eyebrow" style="color: var(--accent)">Features</p>
+        <h2 class="h2">Everything you need to go paperless.</h2>
+      </div>
+      <div class="features">
+        {features.map((f, n) => (
+          <div class="feat reveal" style={`--d:${n * 0.06}s`}>
+            <span class="fi"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={f.i}></path></svg></span>
+            <h3>{f.t}</h3>
+            <p>{f.b}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container steps reveal">
+      <div><span>1</span><h3>Point your camera</h3><p>Edges are detected and the page is captured automatically.</p></div>
+      <div><span>2</span><h3>Enhance &amp; sign</h3><p>Crop, apply a filter, sign it or pull out the text.</p></div>
+      <div><span>3</span><h3>Share as PDF</h3><p>Send it by Mail or Messages, save it to Files or print it.</p></div>
+    </div>
+  </section>
+
+  <AppSections app={app} showDescription={false} />
+</Base>
+
+<style>
+  .hero { padding-top: 88px; padding-bottom: 112px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
+  .copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+  .icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 20px 40px rgba(47, 84, 235, 0.25); }
+  h1 { font-size: clamp(44px, 6vw, 76px); }
+  .lead { max-width: 520px; }
+  .buy { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .meta { font-size: 14px; }
+
+  .art { flex: 1 1 420px; min-width: 0; position: relative; overflow: clip; overflow-clip-margin: 40px; height: 620px; display: flex; justify-content: center; align-items: center; }
+  .glow { position: absolute; width: min(440px, 100%); aspect-ratio: 1; border-radius: 50%; background: var(--accent-soft); }
+  .art :global(.front) { position: relative; margin-right: 140px; animation: float 6s ease-in-out infinite; }
+  .art :global(.back) { position: absolute; left: 52%; top: 70px; animation: float2 7s ease-in-out infinite; }
+  .art :global(.front img) { width: 100%; height: 100%; object-fit: cover; }
+  .scan { position: absolute; left: 12%; right: 12%; height: 3px; border-radius: 3px; background: #2f54eb; box-shadow: 0 0 18px 4px rgba(47, 84, 235, 0.6); animation: scan 3.2s ease-in-out infinite; }
+  @keyframes scan { 0%, 100% { top: 34%; } 50% { top: 74%; } }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-2deg); } }
+  @keyframes float2 { 0%, 100% { transform: translateY(0) rotate(3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+
+  .f-head { max-width: 640px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 56px; }
+  .features { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 20px; }
+  .feat { padding: 32px; border-radius: var(--radius); background: var(--surface-2); display: flex; flex-direction: column; gap: 14px; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .feat:hover { transform: translateY(-4px); }
+  .fi { width: 48px; height: 48px; border-radius: 14px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+  .feat h3 { margin: 0; font-size: 21px; letter-spacing: -0.015em; }
+  .feat p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; padding: clamp(28px, 5vw, 56px); border-radius: var(--radius-lg); border: 1px solid var(--line); }
+  .steps div { display: flex; flex-direction: column; gap: 10px; }
+  .steps span { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; color: var(--accent); }
+  .steps h3 { margin: 0; font-size: 20px; }
+  .steps p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+  @media (max-width: 640px) {
+    .hero { padding-top: 56px; padding-bottom: 72px; gap: 40px; }
+    .art { height: 480px; }
+    .art :global(.front) { margin-right: 90px; --w: 210px !important; }
+    .art :global(.back) { left: 46%; top: 50px; --w: 190px !important; }
+  }
+</style>

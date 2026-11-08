@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import AppCard from '../components/AppCard.astro';
+import Phone from '../components/Phone.astro';
+import { CATEGORIES } from '../config';
+
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const featured = apps.find((a) => a.data.featured) ?? apps[0];
+const cats = CATEGORIES.filter((c) => apps.some((a) => a.data.category === c));
+const platforms = [...new Set(apps.flatMap((a) => a.data.platforms))];
+---
+<Base active="apps" image={featured.data.icon}>
+  <section class="container hero">
+    <p class="eyebrow reveal">Independent iOS studio</p>
+    <h1 class="display reveal" style="--d:.08s">Small apps,<br />made with care.</h1>
+    <p class="lead reveal" style="--d:.16s">Coloring books, cozy puzzles, a document scanner and a workout timer for Apple Watch — designed and built by one developer.</p>
+    <div class="cta reveal" style="--d:.24s">
+      <a class="btn btn-primary" href="#apps">Browse the apps</a>
+      <a class="btn btn-soft" href="/contact/">Get support</a>
+    </div>
+  </section>
+
+  <section class="container">
+    <a href={`/apps/${featured.id}/`} class="featured card reveal" style={`--app:${featured.data.accent}`}>
+      <div class="f-copy">
+        <span class="badge">Latest release</span>
+        <div class="f-title">
+          <img src={featured.data.icon} alt="" width="72" height="72" />
+          <div>
+            <h2>{featured.data.shortName}</h2>
+            <p class="muted">{featured.data.tagline}</p>
+          </div>
+        </div>
+        <p class="f-sum">{featured.data.summary}</p>
+        <span class="more">Learn more →</span>
+      </div>
+      <div class="f-phones" aria-hidden="true">
+        <Phone src={featured.data.screenshots[0]} width={210} eager />
+        <Phone src={featured.data.screenshots[1]} width={210} class="lower" eager />
+      </div>
+    </a>
+  </section>
+
+  <section id="apps" class="container all">
+    <div class="all-head">
+      <div>
+        <h2 class="h2">All apps</h2>
+        <p class="muted sub">{apps.length} apps for {platforms.join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter apps by category">
+        <button type="button" aria-pressed="true" data-filter="All">All</button>
+        {cats.map((c) => <button type="button" aria-pressed="false" data-filter={c}>{c}</button>)}
+      </div>
+    </div>
+    <div class="grid">
+      {apps.map((app) => <AppCard app={app} />)}
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container values">
+      <div class="reveal">
+        <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"></path></svg>
+        <h3>Clear privacy</h3>
+        <p>Every app has its own privacy policy that lists exactly which services it uses.</p>
+      </div>
+      <div class="reveal" style="--d:.08s">
+        <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8M9 9.5h.01M15 9.5h.01"></path></svg>
+        <h3>Made for families</h3>
+        <p>Coloring and puzzle games that are simple, calm and easy to pick up.</p>
+      </div>
+      <div class="reveal" style="--d:.16s">
+        <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
+        <h3>Real support</h3>
+        <p>Questions or bugs? Email the developer directly — every message is read.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('.app-card');
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = b.dataset.filter;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      cards.forEach((c) => (c.hidden = f !== 'All' && c.dataset.category !== f));
+    }),
+  );
+</script>
+
+<style>
+  .hero { padding-top: 120px; padding-bottom: 72px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); max-width: 920px; }
+  .hero .lead { max-width: 620px; }
+  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+  @media (max-width: 640px) { .hero { padding-top: 72px; } }
+
+  .featured { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding: clamp(28px, 5vw, 56px); border-radius: var(--radius-lg); background: var(--surface); color: var(--text); overflow: hidden; }
+  .featured:hover { color: var(--text); }
+  .f-copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .badge { align-self: flex-start; padding: 6px 12px; border-radius: 999px; background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .f-title { display: flex; align-items: center; gap: 16px; }
+  .f-title img { width: 72px; height: 72px; border-radius: 17px; }
+  .f-title h2 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: -0.03em; }
+  .f-title p { margin: 4px 0 0; }
+  .f-sum { margin: 0; font-size: 19px; line-height: 1.55; color: var(--body); max-width: 480px; }
+  .more { font-weight: 600; color: var(--accent); }
+  .f-phones { flex: 1 1 320px; display: flex; justify-content: center; gap: 20px; }
+  .f-phones :global(.lower) { margin-top: 48px; }
+  @media (max-width: 520px) { .f-phones :global(.lower) { display: none; } }
+
+  .all { padding-top: 112px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 32px; }
+  .all-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .sub { margin: 8px 0 0; font-size: 17px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filters button { font: inherit; font-size: 14px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); transition: background 0.2s, color 0.2s; }
+  .filters button[aria-pressed='true'] { background: var(--invert); color: var(--on-invert); border-color: var(--invert); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+  .values { padding-top: 96px; padding-bottom: 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; }
+  .values div { display: flex; flex-direction: column; gap: 12px; }
+  .values svg { color: var(--accent); }
+  .values h3 { margin: 0; font-size: 20px; }
+  .values p { margin: 0; color: var(--muted); line-height: 1.55; }
+</style>

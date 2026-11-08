@@ -1,0 +1,31 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../config';
+interface Props { active?: string; links?: { href: string; label: string }[] }
+const { active } = Astro.props;
+const links = Astro.props.links ?? [
+  { href: '/#apps', label: 'Apps', key: 'apps' },
+  { href: '/privacy/', label: 'Privacy', key: 'privacy' },
+  { href: '/contact/', label: 'Support', key: 'support' },
+];
+---
+<header class="site-header">
+  <nav class="container nav" aria-label="Main">
+    <Logo />
+    <div class="links">
+      {links.map((l: any) => (
+        <a href={l.href} aria-current={l.key && l.key === active ? 'page' : undefined}>{l.label}</a>
+      ))}
+      <a class="btn btn-dark store" href={SITE.appStoreDeveloperUrl}>App Store</a>
+    </div>
+  </nav>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); }
+  .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; padding-top: 14px; padding-bottom: 14px; }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 15px; font-weight: 500; }
+  .links a:not(.btn) { color: var(--text); padding: 10px 0; }
+  .links a[aria-current='page'] { color: var(--accent); }
+  .store { min-height: 40px; padding: 0 16px; font-size: 15px; }
+  @media (max-width: 520px) { .store { display: none; } }
+</style>

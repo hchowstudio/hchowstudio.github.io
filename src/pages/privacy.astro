@@ -1,0 +1,17 @@
+---
+// Studio-wide privacy policy for apps that don't use special permissions
+// (camera, photos, Apple Health…). Apps that do have their own policy at
+// /apps/<slug>/privacy/, generated from their frontmatter.
+import Base from '../layouts/Base.astro';
+import PrivacyPolicy from '../components/PrivacyPolicy.astro';
+import { SITE } from '../config';
+---
+<Base title="Privacy Policy" description={`Privacy policy for ${SITE.name} apps.`} active="privacy">
+  <PrivacyPolicy
+    general
+    heading="Privacy Policy"
+    appliesTo={`${SITE.name} apps`}
+    sdks={['admob']}
+    permissions={[]}
+  />
+</Base>

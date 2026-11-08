@@ -1,0 +1,61 @@
+---
+// Templated landing page for every app in src/content/apps/*.md
+// (apps with `customLanding: true` have their own page in src/pages/apps/<slug>/).
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Phone from '../../../components/Phone.astro';
+import AppStoreButton from '../../../components/AppStoreButton.astro';
+import AppSections from '../../../components/AppSections.astro';
+
+export async function getStaticPaths() {
+  const apps = await getCollection('apps', (a) => !a.data.customLanding);
+  return apps.map((app) => ({ params: { slug: app.id }, props: { app } }));
+}
+const { app } = Astro.props as { app: CollectionEntry<'apps'> };
+const d = app.data;
+---
+<Base title={d.name} description={d.summary} image={d.icon} appStoreId={d.appStoreId}>
+  <section class="container hero" style={`--app:${d.accent}`}>
+    <div class="copy">
+      <img class="icon reveal" src={d.icon} alt="" width="96" height="96" />
+      <h1 class="display reveal" style="--d:.08s">{d.shortName}</h1>
+      <p class="tag reveal" style="--d:.12s">{d.tagline}</p>
+      <p class="lead reveal" style="--d:.16s">{d.summary}</p>
+      <div class="buy reveal" style="--d:.24s">
+        <AppStoreButton id={d.appStoreId} />
+        <span class="muted meta">{d.price} · {d.platforms.join(' & ')}</span>
+      </div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <div class="glow"></div>
+      {d.screenshots[1] && <Phone src={d.screenshots[1]} width={230} class="back float2" eager />}
+      <Phone src={d.screenshots[0]} width={260} class="front float" eager />
+    </div>
+  </section>
+  <AppSections app={app} />
+</Base>
+
+<style>
+  .hero { padding-top: 88px; padding-bottom: 112px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
+  .copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 20px 40px color-mix(in srgb, var(--app) 30%, transparent); }
+  h1 { font-size: clamp(44px, 6vw, 76px); }
+  .tag { margin: -8px 0 0; font-size: 22px; font-weight: 600; color: var(--muted); }
+  .lead { max-width: 520px; }
+  .buy { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .meta { font-size: 14px; }
+  .art { flex: 1 1 420px; min-width: 0; position: relative; overflow: clip; overflow-clip-margin: 40px; height: 620px; display: flex; justify-content: center; align-items: center; }
+  .glow { position: absolute; width: min(440px, 100%); aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--app) 14%, var(--bg)); }
+  .art :global(.front) { position: relative; margin-right: 140px; }
+  .art :global(.back) { position: absolute; left: 52%; top: 70px; }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-2deg); } }
+  @keyframes float2 { 0%, 100% { transform: translateY(0) rotate(3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+  .art :global(.float) { animation: float 6s ease-in-out infinite; }
+  .art :global(.float2) { animation: float2 7s ease-in-out infinite; }
+  @media (max-width: 640px) {
+    .hero { padding-top: 56px; padding-bottom: 72px; gap: 40px; }
+    .art { height: 480px; }
+    .art :global(.front) { margin-right: 90px; --w: 210px !important; }
+    .art :global(.back) { left: 46%; top: 50px; --w: 190px !important; }
+  }
+</style>

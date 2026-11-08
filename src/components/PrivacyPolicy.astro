@@ -1,0 +1,138 @@
+---
+import { SITE } from '../config';
+import { resolveSdks, resolvePermissions } from '../lib/privacy';
+
+interface Props {
+  heading: string;
+  appliesTo: string;
+  sdks: string[];
+  permissions: string[];
+  kids?: boolean;
+  notes?: string;
+  icon?: string;
+  others?: { href: string; label: string }[];
+  // true = studio-wide policy for apps without their own special permissions
+  general?: boolean;
+}
+const { heading, appliesTo, kids = false, notes, icon, others = [], general = false } = Astro.props;
+const sdks = resolveSdks(Astro.props.sdks);
+const perms = resolvePermissions(Astro.props.permissions);
+const hasAds = sdks.some((s) => s.ads);
+const updated = new Date(SITE.privacyLastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const summary = [
+  { k: 'Account required', v: 'No' },
+  { k: 'Ads', v: hasAds ? sdks.filter((s) => s.ads).map((s) => s.name).join(', ') : 'None' },
+  { k: 'We sell your data', v: 'Never' },
+];
+const toc = [
+  ['collect', 'Information we collect'],
+  ['permissions', 'Device permissions'],
+  ['third-party', 'Third-party services'],
+  ['tracking', 'Advertising & tracking'],
+  ['children', 'Children’s privacy'],
+  ['retention', 'Data retention & deletion'],
+  ['changes', 'Changes to this policy'],
+  ['contact', 'Contact'],
+];
+---
+<section class="container head">
+  <p class="eyebrow">Legal</p>
+  <div class="title">
+    {icon && <img src={icon} alt="" width="64" height="64" />}
+    <h1 class="display">{heading}</h1>
+  </div>
+  <p class="muted">Last updated {updated} · Applies to {appliesTo}</p>
+  {others.length > 0 && (
+    <nav class="others" aria-label="Other privacy policies">
+      {others.map((o) => <a href={o.href}>{o.label}</a>)}
+    </nav>
+  )}
+</section>
+
+<section class="container">
+  <div class="summary">
+    {summary.map((s) => (
+      <div><span>{s.k}</span><strong>{s.v}</strong></div>
+    ))}
+  </div>
+</section>
+
+<section class="container body">
+  <aside>
+    <p class="toc-title">On this page</p>
+    {toc.map(([id, t]) => <a href={`#${id}`}>{t}</a>)}
+  </aside>
+  <article class="prose">
+    <h2 id="collect">Information we collect</h2>
+    <p>We do not ask you to create an account, and we do not collect your name, email address, contacts or location. Content you create in {general ? 'our apps' : 'the app'} stays on your device unless you choose to share it.</p>
+    {notes && <p>{notes}</p>}
+    <p>The third-party services listed below may automatically collect limited technical data such as device model, operating system version, IP address, and crash or diagnostic logs.</p>
+
+    <h2 id="permissions">Device permissions</h2>
+    {perms.length ? (
+      <>
+        <p>The app asks for these permissions only when you use a feature that needs them. You can change them at any time in iOS Settings.</p>
+        <ul>{perms.map((p) => <li><strong>{p.name}</strong> — {p.use}</li>)}</ul>
+      </>
+    ) : (
+      <p>{general ? 'These apps do' : 'This app does'} not request access to your camera, photos, contacts, location or health data.</p>
+    )}
+
+    <h2 id="third-party">Third-party services</h2>
+    {sdks.length ? (
+      <>
+        <p>We use the following services. Each one is governed by its own privacy policy:</p>
+        <ul>{sdks.map((s) => <li><strong>{s.name}</strong> — {s.use} <a href={s.href}>Privacy policy</a></li>)}</ul>
+      </>
+    ) : (
+      <p>This app does not use third-party advertising or analytics services.</p>
+    )}
+
+    <h2 id="tracking">Advertising &amp; tracking</h2>
+    {hasAds ? (
+      <p>Before any tracking happens, iOS asks whether you allow it (App Tracking Transparency). If you choose “Ask App Not to Track”, ads are not personalized. You can change this at any time in Settings › Privacy &amp; Security › Tracking.</p>
+    ) : (
+      <p>This app shows no ads and does not track you across apps or websites.</p>
+    )}
+
+    <h2 id="children">Children’s privacy</h2>
+    {kids ? (
+      <p>This app is suitable for children. We do not knowingly collect personal information from children under 13. Ads, where shown, are requested as child-directed and non-personalized, in line with the Children’s Online Privacy Protection Act (COPPA).</p>
+    ) : (
+      <p>{general ? 'These apps are' : 'This app is'} not directed to children under 13, and we do not knowingly collect personal information from them. If you believe a child has provided us personal information, contact us and we will delete it.</p>
+    )}
+
+    <h2 id="retention">Data retention &amp; deletion</h2>
+    <p>Because your content is stored on your device, deleting the app removes it. If an app offers iCloud sync and you turn it on, data is stored in your private iCloud account, which we cannot access. For data held by a third-party service, contact us and we will help you with your request.</p>
+
+    <h2 id="changes">Changes to this policy</h2>
+    <p>We may update this policy from time to time. Changes are posted on this page with a new “Last updated” date.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>Questions about privacy? Email <a href={`mailto:${SITE.supportEmail}?subject=${encodeURIComponent('Privacy question')}`}>{SITE.supportEmail}</a>.</p>
+  </article>
+</section>
+
+<style>
+  .head { padding-top: 80px; padding-bottom: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .title { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .title img { width: 64px; height: 64px; border-radius: 15px; }
+  h1 { font-size: clamp(36px, 5vw, 60px); }
+  .head p { margin: 0; }
+  .others { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .others a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--text); font-size: 14px; font-weight: 600; }
+  .others a:hover { background: var(--surface); }
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .summary div { padding: 24px; border-radius: 20px; background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+  .summary span { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+  .summary strong { font-size: 18px; line-height: 1.35; }
+  .body { padding-top: 24px; padding-bottom: 120px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+  aside { flex: 1 1 220px; display: flex; flex-direction: column; font-size: 15px; }
+  aside a { padding: 8px 0; color: var(--body); }
+  aside a:hover { color: var(--accent); }
+  .toc-title { margin: 0 0 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  article { flex: 999 1 560px; min-width: 0; }
+  article h2:first-child { margin-top: 0; }
+  article h2 { scroll-margin-top: 96px; }
+</style>

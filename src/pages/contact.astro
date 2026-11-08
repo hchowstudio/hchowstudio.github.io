@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const topics = ['Bug report', 'Purchase or subscription', 'Feature request', 'Privacy question', 'Other'];
+const faq = [
+  { q: 'How do I restore my purchase?', a: 'Open the app’s settings and tap Restore Purchases, signed in with the same Apple ID you bought with.' },
+  { q: 'How do I cancel a subscription?', a: 'Go to iPhone Settings › your name › Subscriptions, choose the app and tap Cancel Subscription.' },
+  { q: 'Can I get a refund?', a: 'Refunds are handled by Apple. Request one at reportaproblem.apple.com.' },
+  { q: 'How do I turn off personalized ads?', a: 'Go to Settings › Privacy & Security › Tracking and turn off tracking for the app.' },
+  { q: 'My artwork or scans disappeared.', a: 'Content is stored on your device. If the app was deleted it may be gone — email us and we will try to help.' },
+  { q: 'Can you add a feature I want?', a: 'Yes, please ask! Choose “Feature request” above. Suggestions shape every update.' },
+];
+---
+<Base title="Support" description={`Get help with any ${SITE.name} app.`} active="support">
+  <section class="container top">
+    <div class="intro">
+      <p class="eyebrow">Support</p>
+      <h1 class="display">How can we help?</h1>
+      <p class="lead">Pick the app and topic, and your email opens with everything filled in. A real person reads every message.</p>
+    </div>
+    <form class="panel" id="support" action={`mailto:${SITE.supportEmail}`}>
+      <div class="field">
+        <label for="app">App</label>
+        <select id="app" name="app">
+          {apps.map((a) => <option value={a.id} data-name={a.data.shortName}>{a.data.shortName}</option>)}
+          <option value="general" data-name="General">Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic">{topics.map((t) => <option>{t}</option>)}</select>
+      </div>
+      <div class="subject" aria-live="polite">
+        <span>Subject</span>
+        <strong id="subject">{apps[0].data.shortName} — {topics[0]}</strong>
+      </div>
+      <a class="btn btn-primary send" id="send" href={`mailto:${SITE.supportEmail}`}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
+        Email support
+      </a>
+      <p class="alt">Or write to <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a></p>
+    </form>
+  </section>
+
+  <section class="container more">
+    <h2 class="h2">Common questions</h2>
+    <div class="faqs">
+      {faq.map((f) => (<details class="faq"><summary>{f.q}</summary><p>{f.a}</p></details>))}
+    </div>
+  </section>
+</Base>
+
+<script define:vars={{ email: SITE.supportEmail }}>
+  const app = document.getElementById('app');
+  const topic = document.getElementById('topic');
+  const subject = document.getElementById('subject');
+  const send = document.getElementById('send');
+  const preset = new URLSearchParams(location.search).get('app');
+  if (preset && app.querySelector(`option[value="${CSS.escape(preset)}"]`)) app.value = preset;
+  function update() {
+    const name = app.selectedOptions[0].dataset.name;
+    const s = `${name} — ${topic.value}`;
+    subject.textContent = s;
+    const body = `\n\n---\nApp: ${name}\nDevice: \niOS version: \n`;
+    send.href = `mailto:${email}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(body)}`;
+  }
+  app.addEventListener('change', update);
+  topic.addEventListener('change', update);
+  update();
+</script>
+
+<style>
+  .top { padding-top: 96px; padding-bottom: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+  .intro { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  h1 { font-size: clamp(44px, 6vw, 72px); }
+  .lead { max-width: 480px; }
+  .panel { flex: 1 1 420px; min-width: 0; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--surface); display: flex; flex-direction: column; gap: 22px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  label { font-size: 14px; font-weight: 600; }
+  select { font: inherit; font-size: 16px; min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); }
+  .subject { padding: 16px 18px; border-radius: 14px; background: var(--surface-2); border: 1px dashed var(--line-strong); display: flex; flex-direction: column; gap: 4px; }
+  .subject span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .send { min-height: 56px; font-size: 17px; }
+  .alt { margin: 0; font-size: 14px; color: var(--muted); text-align: center; }
+  .more { padding-top: 48px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 32px; }
+  .faqs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 14px; align-items: start; }
+  @media (max-width: 640px) { .top { padding-top: 56px; } }
+</style>

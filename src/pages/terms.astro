@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base title="Terms of Use" description={`Terms of use for ${SITE.name} apps.`}>
+  <section class="container wrap">
+    <p class="eyebrow">Legal</p>
+    <h1 class="display">Terms of Use</h1>
+    <div class="prose">
+      <p>By downloading or using an app from {SITE.name} (developer: {SITE.developerName}), you agree to these terms and to Apple’s <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Standard Licensed Application End User License Agreement</a>.</p>
+      <h2>Using the apps</h2>
+      <p>You may use the apps for personal, non-commercial purposes. You may not copy, modify, reverse-engineer or redistribute the apps or their artwork.</p>
+      <h2>Purchases &amp; subscriptions</h2>
+      <p>In-app purchases and subscriptions are processed by Apple. Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel them in Settings › your name › Subscriptions. Refunds are handled by Apple at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>.</p>
+      <h2>Content you create</h2>
+      <p>Artwork, scans and other content you create belong to you. You are responsible for the documents you scan and share.</p>
+      <h2>Disclaimer</h2>
+      <p>The apps are provided “as is”, without warranties of any kind. Health and fitness features are not medical advice; consult a professional before starting a new exercise program.</p>
+      <h2>Changes</h2>
+      <p>We may update these terms. Continued use of the apps after changes means you accept the updated terms.</p>
+      <h2>Contact</h2>
+      <p>Questions? Email <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a>.</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .wrap { padding-top: 80px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 16px; }
+  h1 { font-size: clamp(36px, 5vw, 60px); margin-bottom: 24px; }
+</style>

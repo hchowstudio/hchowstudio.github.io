@@ -1,0 +1,24 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PrivacyPolicy from '../../../components/PrivacyPolicy.astro';
+
+export async function getStaticPaths() {
+  const apps = await getCollection('apps');
+  return apps.map((app) => ({ params: { slug: app.id }, props: { app } }));
+}
+const { app } = Astro.props as { app: CollectionEntry<'apps'> };
+const d = app.data;
+---
+<Base title={`${d.shortName} Privacy Policy`} description={`How ${d.name} handles your data.`} active="privacy" appStoreId={d.appStoreId}>
+  <PrivacyPolicy
+    heading={`${d.shortName} Privacy Policy`}
+    appliesTo={d.name}
+    icon={d.icon}
+    sdks={d.sdks}
+    permissions={d.permissions}
+    kids={d.kids}
+    notes={d.privacyNotes}
+    others={[{ href: `/apps/${app.id}/`, label: `About ${d.shortName}` }, { href: '/privacy/', label: 'All apps policy' }]}
+  />
+</Base>

@@ -1,0 +1,21 @@
+---
+import { SITE } from '../config';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container inner">
+    <span>© {year} {SITE.name}. All rights reserved.</span>
+    <nav aria-label="Footer">
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/contact/">Support</a>
+    </nav>
+  </div>
+</footer>
+<style>
+  .site-footer { border-top: 1px solid var(--line); }
+  .inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 24px; padding-top: 40px; padding-bottom: 40px; font-size: 14px; color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 24px; }
+  nav a { color: var(--muted); }
+  nav a:hover { color: var(--text); }
+</style>
