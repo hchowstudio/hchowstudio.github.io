@@ -40,6 +40,9 @@ export const PERMISSIONS: Record<string, { name: string; use: string }> = {
   health: { name: 'Apple Health', use: 'With your permission, completed workouts are written to Apple Health. Health data is never used for ads or shared with third parties.' },
   microphone: { name: 'Microphone', use: 'Used only while you record your voice to practice. Recordings stay on your device.' },
   speech: { name: 'Speech recognition', use: 'Turns your recorded voice into text so the app can compare it with the target phrase. Processed by Apple’s speech recognition service.' },
+  'local-network': { name: 'Local Network', use: 'Used to find compatible TVs on your Wi-Fi network and to send them your remote commands and the content you choose to cast.' },
+  'photos-cast': { name: 'Photo library', use: 'Used to cast the photos and videos you choose to your TV.' },
+  'microphone-voice': { name: 'Microphone', use: 'Used only while you use voice search or voice commands for your TV.' },
   notifications: { name: 'Notifications', use: 'Optional reminders. You can turn them off in Settings.' },
 };
 
