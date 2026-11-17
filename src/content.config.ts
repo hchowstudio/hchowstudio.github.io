@@ -11,6 +11,8 @@ const apps = defineCollection({
     status: z.enum(['draft', 'upcoming', 'live']).default('live'),
     name: z.string(),
     shortName: z.string(),
+    // Previous slugs; old URLs redirect to this app (see astro.config.mjs).
+    aliases: z.array(z.string()).default([]),
     tagline: z.string(),
     summary: z.string().default(''),
     appStoreId: z.string().optional(),

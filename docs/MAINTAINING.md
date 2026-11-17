@@ -68,6 +68,11 @@ npm run sync-app -- --all --text   # also overwrite descriptions with the App St
 Without `--text`, descriptions you've edited by hand are kept.
 `tagline` (the App Store subtitle) isn't available from Apple's API, so set it yourself.
 
+### Renaming an app's URL
+
+1. Rename `src/content/apps/<old>.md` and `public/images/apps/<old>/` to the new slug, and update the image paths inside the file.
+2. Add `aliases: [<old>]` to the file. `/apps/<old>/`, `/apps/<old>/privacy/` and `/contact/?app=<old>` keep working, so App Store Connect links don't break.
+
 ## Custom HTML/CSS landing page
 
 For an app that deserves its own animated page:

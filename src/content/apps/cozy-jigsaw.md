@@ -1,7 +1,9 @@
 ---
 status: live
 name: "Cozy Friends Jigsaw Puzzles"
-shortName: "Cozy Friends Jigsaw"
+shortName: "Cozy Jigsaw"
+# Old slugs: their /apps/<old>/ and /apps/<old>/privacy/ URLs redirect here.
+aliases: [cozy-friends-jigsaw]
 tagline: "Animal jigsaw, Capybara puzzle"
 summary: "Dive into a world of cozy bliss with Cozy Friends Jigsaw Puzzles! Assemble heartwarming images of capybaras, cats, and other cute animals in charming kawaii styles, cozy moments, and playful scenes."
 appStoreId: "6758280449"
@@ -9,14 +11,14 @@ bundleId: "com.hchowstudio.jigsawpuzzle.animals"
 category: "Puzzles"
 storeGenre: "Games"
 accent: "#0F766E"
-icon: /images/apps/cozy-friends-jigsaw/icon.png
+icon: /images/apps/cozy-jigsaw/icon.png
 screenshots:
-  - /images/apps/cozy-friends-jigsaw/shot-1.webp
-  - /images/apps/cozy-friends-jigsaw/shot-2.webp
-  - /images/apps/cozy-friends-jigsaw/shot-3.webp
-  - /images/apps/cozy-friends-jigsaw/shot-4.webp
-  - /images/apps/cozy-friends-jigsaw/shot-5.webp
-  - /images/apps/cozy-friends-jigsaw/shot-6.webp
+  - /images/apps/cozy-jigsaw/shot-1.webp
+  - /images/apps/cozy-jigsaw/shot-2.webp
+  - /images/apps/cozy-jigsaw/shot-3.webp
+  - /images/apps/cozy-jigsaw/shot-4.webp
+  - /images/apps/cozy-jigsaw/shot-5.webp
+  - /images/apps/cozy-jigsaw/shot-6.webp
 platforms: [iPhone, iPad]
 price: "Free"
 ageRating: "4+"

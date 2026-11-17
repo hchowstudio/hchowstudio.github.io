@@ -5,6 +5,7 @@ import { SITE } from '../config';
 
 // Drafts are hidden from the menu but still selectable via ?app=<slug> (the Support URL for App Review).
 const apps = await allApps();
+const aliases = Object.fromEntries(apps.flatMap((a) => a.data.aliases.map((old) => [old, a.id])));
 const topics = ['Bug report', 'Purchase or subscription', 'Feature request', 'Privacy question', 'Other'];
 const faq = [
   { q: 'How do I restore my purchase?', a: 'Open the app’s settings and tap Restore Purchases, signed in with the same Apple ID you bought with.' },
@@ -54,12 +55,13 @@ const faq = [
   </section>
 </Base>
 
-<script define:vars={{ email: SITE.supportEmail }}>
+<script define:vars={{ email: SITE.supportEmail, aliases }}>
   const app = document.getElementById('app');
   const topic = document.getElementById('topic');
   const subject = document.getElementById('subject');
   const send = document.getElementById('send');
-  const preset = new URLSearchParams(location.search).get('app');
+  const raw = new URLSearchParams(location.search).get('app');
+  const preset = (raw && aliases[raw]) || raw;
   if (preset && app.querySelector(`option[value="${CSS.escape(preset)}"]`)) app.value = preset;
   function update() {
     const name = app.selectedOptions[0].dataset.name;
