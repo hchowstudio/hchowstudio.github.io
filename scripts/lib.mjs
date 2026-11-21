@@ -78,7 +78,7 @@ export function descriptionToMarkdown(desc) {
     const s = raw.trim();
     if (!s) { out.push(''); continue; }
     if (/^https?:\/\/\S+$/.test(s)) continue;
-    if (/^(terms of use|terms|privacy policy|eula|privacy)\s*:?$/i.test(s)) continue;
+    if (/^(terms of use|terms|terms & conditions|privacy policy|eula|privacy)\s*:?\s*(https?:\/\/\S+)?$/i.test(s)) continue;
     if (first) { out.push(s); first = false; continue; }
     if (s.includes('•')) {
       const [head, ...items] = s.split('•');
